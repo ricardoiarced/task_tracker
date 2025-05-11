@@ -1,0 +1,2 @@
+tabulate==latest
+pytest==8.3.2

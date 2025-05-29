@@ -1,9 +1,7 @@
-from task_tracker import (add_task, update_task, delete_task)
+from task_tracker import (add_task, update_task, delete_task, mark_task_in_progress)
 import json
 from pathlib import Path
 from datetime import datetime
-
-DATE_FORMAT = "%Y/%m/%d %H:%M:%S"
 
 def test_add_task_creates_a_new_id_with_timestamps() -> None:
     db = {}
@@ -15,7 +13,7 @@ def test_add_task_creates_a_new_id_with_timestamps() -> None:
 
 def test_update_task_changes_description_and_updated_at() -> None:
     original_date = datetime(2025,5,28,12,30,30)
-    original_ts = original_date.strftime(DATE_FORMAT)
+    original_ts = original_date.strftime("%Y/%m/%d %H:%M:%S")
 
     db = {
         "1": {
@@ -34,7 +32,7 @@ def test_update_task_changes_description_and_updated_at() -> None:
     new_ts = db["1"]["updated-at"]
     assert new_ts != original_ts
 
-    parsed = datetime.strptime(new_ts, DATE_FORMAT)
+    parsed = datetime.strptime(new_ts, "%Y/%m/%d %H:%M:%S")
     assert isinstance(parsed, datetime)
 
 def test_delete_task() -> None:
@@ -49,5 +47,28 @@ def test_delete_task() -> None:
         }
     }
     delete_task(db, "1")
-    
+
     assert "1" not in db
+
+def test_mark_task_in_progress() -> None:
+    original_date = datetime(2025,5,28,12,30,30)
+    original_ts = original_date.strftime("%Y/%m/%d %H:%M:%S")
+
+    db = {
+        "1": {
+            "description": "Walk my dog",
+            "status": "todo",
+            "updated-at": original_ts,
+            "created-at": original_ts,
+        }
+    }
+
+    mark_task_in_progress(db, "1")
+
+    assert db["1"]["status"] == "in-progress"
+    assert db["1"]["created-at"] == original_ts
+    new_ts = db["1"]["updated-at"]
+    assert new_ts != original_ts
+
+    parsed = datetime.strptime(new_ts, "%Y/%m/%d %H:%M:%S")
+    assert isinstance(parsed, datetime)

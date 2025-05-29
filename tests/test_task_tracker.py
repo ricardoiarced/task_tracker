@@ -1,4 +1,4 @@
-from task_tracker import (add_task, update_task)
+from task_tracker import (add_task, update_task, delete_task)
 import json
 from pathlib import Path
 from datetime import datetime
@@ -36,3 +36,18 @@ def test_update_task_changes_description_and_updated_at() -> None:
 
     parsed = datetime.strptime(new_ts, DATE_FORMAT)
     assert isinstance(parsed, datetime)
+
+def test_delete_task() -> None:
+    original_date = datetime(2025,5,28,12,30,30)
+    original_ts = original_date.strftime("%Y/%m/%d %H:%M:%S")
+    db = {
+        "1": {
+            "description": "Do exercise",
+            "status": "done",
+            "updated-at": original_ts,
+            "created-at": original_ts,
+        }
+    }
+    delete_task(db, "1")
+    
+    assert "1" not in db

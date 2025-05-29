@@ -16,3 +16,9 @@ def update_task(db: dict[str, dict], id: str, description: str) -> None:
     today = datetime.today().strftime("%Y/%m/%d %H:%M:%S")
     db[id]["description"] = description
     db[id]["updated-at"] = today
+
+def delete_task(db: dict[str, dict], id: str) -> None:
+    
+    del db[id]
+
+

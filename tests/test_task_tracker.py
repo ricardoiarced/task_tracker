@@ -1,4 +1,4 @@
-from task_tracker import (add_task, update_task, delete_task, mark_task_in_progress, mark_task_done, DATE_FMT)
+from task_tracker import (add_task, update_task, delete_task, mark_task_in_progress, mark_task_done, list_tasks, DATE_FMT)
 import json
 from pathlib import Path
 from datetime import datetime
@@ -19,8 +19,8 @@ def test_update_task_changes_description_and_updated_at() -> None:
         "1": {
             "description": "Hello, my friend!",
             "status": "todo",
-            "updated-at": original_ts,
-            "created-at": original_ts
+            "created-at": original_ts,
+            "updated-at": original_ts
         }
     }
 
@@ -42,8 +42,8 @@ def test_delete_task() -> None:
         "1": {
             "description": "Do exercise",
             "status": "done",
-            "updated-at": original_ts,
             "created-at": original_ts,
+            "updated-at": original_ts,
         }
     }
     delete_task(db, "1")
@@ -58,8 +58,8 @@ def test_mark_task_in_progress() -> None:
         "1": {
             "description": "Walk my dog",
             "status": "todo",
-            "updated-at": original_ts,
             "created-at": original_ts,
+            "updated-at": original_ts,
         }
     }
 
@@ -81,8 +81,8 @@ def test_mark_task_done() -> None:
         "1": {
             "description": "Feed the dog",
             "status": "todo",
-            "updated-at": original_ts,
             "created-at": original_ts,
+            "updated-at": original_ts,
         }
     }
 
@@ -95,3 +95,61 @@ def test_mark_task_done() -> None:
 
     parsed = datetime.strptime(new_ts, DATE_FMT)
     assert isinstance(parsed, datetime)
+
+def test_list_tasks(capsys) -> None:
+    original_date = datetime(2025,5,28,12,30,30)
+    original_ts = original_date.strftime(DATE_FMT)
+    db = {
+        "1": {
+            "description": "Walk the dog",
+            "status": "todo",
+            "created-at": original_ts,
+            "updated-at": original_ts,
+        },
+        "2": {
+            "description": "Do calisthenics",
+            "status": "in-progress",
+            "created-at": original_ts,
+            "updated-at": original_ts,
+        }
+    }
+
+    list_tasks(db)
+
+    out = capsys.readouterr().out
+
+    assert "1" in out and "Walk the dog" in out and "todo" in out
+    assert "2" in out and "Do calisthenics" in out and "in-progress" in out
+
+def test_list_tasks_by_status(capsys) -> None:
+    original_date = datetime(2025,5,28,12,30,30)
+    original_ts = original_date.strftime(DATE_FMT)
+
+    db = {
+        "1": {
+            "description": "Study DSA",
+            "status": "done",
+            "created-at": original_ts,
+            "updated-at": original_ts,
+        },
+        "2": {
+            "description": "Play games",
+            "status": "in-progress",
+            "created-at": original_ts,
+            "updated-at": original_ts,
+        },
+        "3": {
+            "description": "Read",
+            "status": "done",
+            "created-at": original_ts,
+            "updated-at": original_ts,
+        }
+    }
+
+    list_tasks(db, status="done")
+
+    out = capsys.readouterr().out
+    assert "1" in out and "Study DSA" in out and "done" in out
+    assert "3" in out and "Read" in out and "done" in out
+
+    assert "Play games" not in out

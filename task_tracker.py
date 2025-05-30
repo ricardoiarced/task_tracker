@@ -26,3 +26,6 @@ def mark_task_in_progress(db: dict[str, dict], id: str) -> None:
     db[id]["updated-at"] = datetime.now().strftime(DATE_FMT)
     db[id]["status"] = "in-progress"
 
+def mark_task_done(db: dict[str, dict], id: str) -> None:
+    db[id]["updated-at"] = datetime.now().strftime(DATE_FMT)
+    db[id]["status"] = "done"

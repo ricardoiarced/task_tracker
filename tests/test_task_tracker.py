@@ -1,8 +1,18 @@
-from task_tracker import (add_task, update_task, delete_task, mark_task_in_progress, mark_task_done, list_tasks, DATE_FMT)
+from task_tracker import (load_database, save_database, add_task, update_task, delete_task, mark_task_in_progress, mark_task_done, list_tasks, DATE_FMT)
 import json
 from pathlib import Path
 from datetime import datetime
 
+def test_load_and_save_database(tmp_path) -> None:
+    fp = tmp_path / "db.json"
+    db = load_database(str(fp))
+    assert db == {}
+
+    sample = {"1": {"description": "Hello, task tracker!"}}
+    save_database(sample, str(fp))
+    reloaded = load_database(str(fp))
+    assert reloaded == sample
+    
 def test_add_task_creates_a_new_id_with_timestamps() -> None:
     db = {}
     add_task(db, "Hello world!")

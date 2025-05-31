@@ -63,7 +63,7 @@ python task_tracker list --status done
 ## Commands
 
 | Command | Description |
-|-----------------------|
+|---------|-------------|
 | add <desc> | Create a new task with <desc> |
 | update <id> <desc> | Change the description of task <id> |
 | delete <id> | Remove task <id> |
@@ -79,12 +79,3 @@ To run tests and make sure everything works perfect you can run the following co
 ```bash
 pytest -q
 ```
-
-1. To add a task you need to type and execute "python task_tracker.py add "description of your task"
-2. To update a task you need to type and execute "python task_tracker.py update 'new description of the task'"
-3. To delete a task you need to type and execute "python task_tracker.py delete id"
-4. To mark a task in progress you need to type and execute "python task_tracker mark-in-progress id"
-5. To mark a task as done you need to type and execute "python task_tracker mark-done id"
-6. To list all the tasks you need to type and execute "python task_tracker.py list"
-7. To list all the tasks in done status you need to type and execute "python task_tracker.py list --status done"
-

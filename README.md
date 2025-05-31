@@ -1,7 +1,8 @@
 # task_tracker
 
 A simple CLI task-tracker built in python.
-**Project URL**: https://github.com/ricardoiarced/task_tracker
+
+**Project URL**: https://roadmap.sh/projects/task-tracker
 
 ## Installation
 

@@ -64,13 +64,13 @@ python task_tracker list --status done
 
 | Command | Description |
 |---------|-------------|
-| add <desc> | Create a new task with <desc> |
-| update <id> <desc> | Change the description of task <id> |
-| delete <id> | Remove task <id> |
-| mark-in-progress <id> | Set task <id> to "in-progress" |
-| mark-done <id> | Set task <id> to "done" |
-| list | Show all tasks |
-| list --status STATUS | Show tasks filtered by todo, in-progress, or done |
+| `add <desc>` | Create a new task with `<desc>` |
+| `update <id> <desc>` | Change the description of task `<id>` |
+| `delete <id>` | Remove task `<id>` |
+| `mark-in-progress <id>` | Set task `<id>` to "in-progress" |
+| `mark-done <id>` | Set task `<id>` to "done" |
+| `list` | Show all tasks |
+| `list --status STATUS` | Show tasks filtered by todo, in-progress, or done |
 
 ## Running Tests
 
